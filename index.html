@@ -3,10 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Landing Page</title>
+  <title>Morse Messenger</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terracotta-accent: rgb(191, 94, 74);
+      --terracotta-mid: rgb(212, 151, 131);
+      --background: rgb(247, 245, 240);
+      --custom-teal: rgb(120, 173, 171);
+      --custom-teal-text: rgb(107, 156, 153);
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+    }
+
+    .top-section {
+      padding-top: 60px; /* small top padding */
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 25px;
+      border: 3px solid var(--terracotta-accent);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: var(--terracotta-accent);
+      margin: 0;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    p.tagline {
+      font-size: 1rem;
+      color: var(--terracotta-mid);
+      margin: 0;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    .btn {
+      background: var(--custom-teal);
+      color: white;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--custom-teal-text);
+      transform: scale(1.05);
+    }
+
+    footer {
+      position: absolute;
+      bottom: 20px;
+      font-size: 0.85rem;
+      color: var(--terracotta-mid);
+    }
+  </style>
 </head>
 <body>
-  <h1>Welcome to my site!</h1>
-  <p>This is my first landing page.</p>
+  <div class="top-section">
+    <img src="logo.png" alt="Morse Logo" class="logo">
+    <h1>Morse</h1>
+    <p class="tagline">A newer era of messaging</p>
+    <a href="#download" class="btn">Get Started</a>
+  </div>
+
+  <footer>&copy; 2025 Morse Wallet, Inc.</footer>
 </body>
 </html>
