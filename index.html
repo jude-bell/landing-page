@@ -10,6 +10,8 @@
       --terracotta-accent: rgb(191, 94, 74);
       --terracotta-mid: rgb(212, 151, 131);
       --background: rgb(247, 245, 240);
+      --custom-teal: rgb(120, 173, 171);
+      --custom-teal-text: rgb(107, 156, 153);
     }
 
     body {
@@ -28,6 +30,8 @@
 
     .top-section {
       padding-top: 60px; /* small top padding */
+      max-width: 600px;
+      margin: 0 20px;
     }
 
     .logo {
@@ -48,12 +52,53 @@
       font-weight: 700;
     }
 
-    p.tagline {
+    .top-section p {
+      color: #333;
       font-size: 1rem;
-      color: var(--terracotta-mid);
-      margin: 0;
+      line-height: 1.6;
       margin-bottom: 30px;
-      font-weight: 400;
+    }
+
+    .btn {
+      background: var(--custom-teal);
+      color: white;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn:hover {
+      background: var(--custom-teal-text);
+      transform: scale(1.05);
+    }
+
+    .about-contact {
+      max-width: 600px;
+      margin: 40px 20px;
+      text-align: center;
+    }
+
+    .about-contact h2 {
+      color: var(--terracotta-accent);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .about-contact p {
+      color: #333;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .about-contact a {
+      color: var(--custom-teal);
+      text-decoration: none;
     }
 
     footer {
@@ -68,10 +113,22 @@
   <div class="top-section">
     <img src="logo.png" alt="Morse Logo" class="logo">
     <h1>Morse</h1>
-    <p class="tagline">A newer era of messaging</p>
+    <p>
+      Morse Wallet, Inc. is a technology company focused on secure, decentralized messaging solutions. Our product, Morse, enables private communication built on cutting-edge blockchain technology, putting users in full control of their data.
+    </p>
+  </div>
+
+  <div class="about-contact">
+    <section>
+      <h2>Contact Us</h2>
+      <p>
+        Email: <a href="mailto:support@morsewallet.com">support@morsewallet.com</a><br>
+      </p>
+    </section>
   </div>
 
   <footer>&copy; 2025 Morse Wallet, Inc.</footer>
 </body>
 </html>
+
 
