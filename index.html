@@ -1,134 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Morse Messenger</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Morse — Private, decentralized messaging</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
+    :root{
       --terracotta-accent: rgb(191, 94, 74);
       --terracotta-mid: rgb(212, 151, 131);
       --background: rgb(247, 245, 240);
-      --custom-teal: rgb(120, 173, 171);
-      --custom-teal-text: rgb(107, 156, 153);
+      --custom-teal: rgb(24, 150, 133);
+      --custom-teal-600: rgb(20, 120, 106);
+      --muted: #6b6b6b;
+      --content-width: 960px;
     }
 
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--background);
-      color: #111;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      text-align: center;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow-x:hidden;scroll-behavior:smooth}
+    body{
+      font-family:'Inter',system-ui,-apple-system,Roboto,sans-serif;
+      background:linear-gradient(180deg,#faf9f7 0%,var(--background) 100%);
+      color:#111;display:flex;flex-direction:column;align-items:center;
+      -webkit-font-smoothing:antialiased;line-height:1.5;
     }
 
-    .top-section {
-      padding-top: 60px; /* small top padding */
-      max-width: 600px;
-      margin: 0 20px;
+    header{width:100%;position:sticky;top:0;z-index:40;
+      backdrop-filter:blur(10px);
+      background:rgba(247,245,240,0.85);
+      border-bottom:1px solid rgba(0,0,0,0.05);
     }
+    .nav{max-width:var(--content-width);margin:auto;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;}
+    .brand{display:flex;align-items:center;gap:14px;}
+    .logo{width:56px;height:56px;border-radius:16px;border:2px solid var(--terracotta-accent);box-shadow:0 4px 14px rgba(0,0,0,0.08);background:#fff url('logo.png') center/cover no-repeat}
+    .brand h1{font-size:1.2rem;color:var(--terracotta-accent);font-weight:700}
+    .brand small{font-size:.8rem;color:var(--muted)}
 
-    .logo {
-      width: 100px;
-      height: 100px;
-      border-radius: 25px;
-      border: 3px solid var(--terracotta-accent);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-      object-fit: cover;
-      margin-bottom: 15px;
+    .nav-links{display:flex;gap:16px;align-items:center}
+    .nav-links a{font-size:.95rem;color:var(--terracotta-mid);text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--terracotta-accent)}
+
+    .btn{background:var(--custom-teal);color:white;padding:10px 18px;border:0;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(16,126,115,0.15);transition:all .15s}
+    .btn:hover{transform:translateY(-2px);background:var(--custom-teal-600)}
+
+    .container{width:100%;max-width:var(--content-width);padding:60px 20px}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center;margin-bottom:60px}
+    .hero h2{font-size:3rem;color:var(--terracotta-accent);margin-bottom:18px;line-height:1.1;letter-spacing:-.02em}
+    .hero p{color:var(--muted);margin-bottom:22px;font-size:1.1rem}
+    .waitlist-form{display:flex;gap:10px;align-items:center}
+    .waitlist-form input{flex:1;padding:14px 16px;border-radius:10px;border:1px solid rgba(0,0,0,.08);font-size:1rem}
+    .pill-note{font-size:.9rem;color:var(--muted);margin-top:10px}
+
+    /* hero card + art container */
+    .hero-visual{
+      background:white;border-radius:18px;box-shadow:0 10px 28px rgba(16,24,40,0.06);
+      min-height:360px;overflow:hidden;display:flex;align-items:center;justify-content:center;
     }
-
-    h1 {
-      font-size: 2.5rem;
-      color: var(--terracotta-accent);
-      margin: 0;
-      margin-bottom: 8px;
-      font-weight: 700;
+    /* ensure the art container can never be 0-sized */
+    #art-container{
+      width:100%;
+      min-height:360px; /* ensures container has size at layout time */
+      height:100%;
+      display:flex;align-items:center;justify-content:center;
+      position:relative;
+      border-radius:18px;
+      background: transparent;
     }
+    /* allow canvas to render at exact pixel size (no CSS scaling) */
+    #art-container canvas{display:block;max-width:100%;height:auto}
 
-    .top-section p {
-      color: #333;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-bottom:80px}
+    .feature{background:white;padding:24px;border-radius:14px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    .feature h3{color:var(--terracotta-accent);margin-bottom:6px;font-size:1.1rem}
+    .feature p{color:var(--muted);font-size:.95rem}
 
-    .btn {
-      background: var(--custom-teal);
-      color: white;
-      padding: 0.9rem 2rem;
-      border: none;
-      border-radius: 0.5rem;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s, transform 0.2s;
-    }
+    .about-contact{text-align:center;max-width:640px;margin:0 auto 80px}
+    .about-contact h2{color:var(--terracotta-accent);font-size:1.5rem;margin-bottom:14px}
+    .about-contact p{color:#333;font-size:1rem;line-height:1.6;margin-bottom:20px}
+    .about-contact a{color:var(--custom-teal);text-decoration:none}
 
-    .btn:hover {
-      background: var(--custom-teal-text);
-      transform: scale(1.05);
-    }
+    footer{width:100%;border-top:1px solid rgba(0,0,0,0.05);padding:20px 0;font-size:.9rem;color:var(--terracotta-mid)}
+    .footer-inner{max-width:var(--content-width);margin:auto;display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+    .footer-links a{margin-left:14px;text-decoration:none;color:var(--terracotta-mid);transition:color .2s}
+    .footer-links a:hover{color:var(--terracotta-accent)}
 
-    .about-contact {
-      max-width: 600px;
-      margin: 40px 20px;
-      text-align: center;
-    }
-
-    .about-contact h2 {
-      color: var(--terracotta-accent);
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .about-contact p {
-      color: #333;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .about-contact a {
-      color: var(--custom-teal);
-      text-decoration: none;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 20px;
-      font-size: 0.85rem;
-      color: var(--terracotta-mid);
+    @media (max-width:960px){
+      .hero{grid-template-columns:1fr;text-align:center}
+      .hero-visual{margin:auto;max-width:380px;height:300px}
+      .waitlist-form{flex-direction:column;gap:12px}
+      .waitlist-form input,.waitlist-form button{width:100%}
     }
   </style>
 </head>
 <body>
-  <div class="top-section">
-    <img src="logo.png" alt="Morse Logo" class="logo">
-    <h1>Morse</h1>
-    <p>
-      Morse Wallet, Inc. is a technology company focused on secure, decentralized messaging solutions. Our product, Morse, enables private communication built on cutting-edge blockchain technology, putting users in full control of their data.
-    </p>
-  </div>
+  <header>
+    <nav class="nav">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <h1>Morse</h1>
+          <small>Morse Wallet, Inc.</small>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <button class="btn" onclick="scrollToWaitlist()">Join Waitlist</button>
+      </div>
+    </nav>
+  </header>
 
-  <div class="about-contact">
-    <section>
-      <h2>Contact Us</h2>
-      <p>
-        Email: <a href="mailto:support@morsewallet.com">support@morsewallet.com</a><br>
-      </p>
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h2>Private messaging, reimagined.</h2>
+        <p>End-to-end encrypted conversations built on decentralized infrastructure — you own your data and control who can read it.</p>
+        <form id="waitlist" class="waitlist-form" onsubmit="return handleSubscribe(event)">
+          <input id="email-input" type="email" placeholder="you@domain.com" required>
+          <button class="btn" type="submit">Get notified</button>
+        </form>
+        <div class="pill-note">No spam — only launch info and important updates.</div>
+      </div>
+
+      <aside class="hero-visual">
+        <!-- art-container MUST have min-height so p5 can size correctly -->
+        <div id="art-container" aria-hidden="true"></div>
+      </aside>
     </section>
-  </div>
 
-  <footer>&copy; 2025 Morse Wallet, Inc.</footer>
+    <section class="features" id="how">
+      <div class="feature">
+        <h3>End-to-end encryption</h3>
+        <p>All messages are encrypted on your device — only recipients can decrypt them.</p>
+      </div>
+      <div class="feature">
+        <h3>Decentralized storage</h3>
+        <p>Store message data on decentralized nodes you control — not a central server.</p>
+      </div>
+      <div class="feature">
+        <h3>On-device identity</h3>
+        <p>Keys and identities are generated and stored locally. You hold the private keys.</p>
+      </div>
+    </section>
+
+    <section class="about-contact" id="about">
+      <h2>About Morse</h2>
+      <p>
+        Morse Wallet, Inc. is a technology company focused on secure, decentralized messaging solutions.
+        Our product, Morse, enables private communication built on cutting-edge blockchain technology,
+        putting users in full control of their data.
+      </p>
+      <h2>Contact Us</h2>
+      <p>Email: <a href="mailto:support@morsewallet.com">support@morsewallet.com</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© 2025 Morse Wallet, Inc.</div>
+      <div class="footer-links">
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="mailto:support@morsewallet.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- p5 + instance-mode sketch -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+  <script>
+    (function(){
+      function initSketch() {
+        const sketch = (p) => {
+          let nodes = [];
+          let terr = getComputedStyle(document.documentElement).getPropertyValue('--terracotta-accent').trim() || 'rgb(191,94,74)';
+          let teal = getComputedStyle(document.documentElement).getPropertyValue('--custom-teal').trim() || 'rgb(24,150,133)';
+          let container = null;
+    
+          p.setup = function() {
+            container = document.getElementById('art-container');
+            const r = container.getBoundingClientRect();
+            const w = Math.max(320, Math.floor(r.width));
+            const h = Math.max(240, Math.floor(r.height));
+            p.pixelDensity(1);
+            const cvs = p.createCanvas(w, h);
+            cvs.parent(container);
+    
+            // fewer nodes, gentler motion
+            const total = 30;
+            for (let i = 0; i < total; i++) {
+              nodes.push({
+                x: p.random(w),
+                y: p.random(h),
+                dx: p.random(-0.15, 0.15),
+                dy: p.random(-0.15, 0.15),
+                size: p.random(3.5, 6),
+                color: p.random() > 0.5 ? p.color(terr) : p.color(teal)
+              });
+            }
+          };
+    
+          p.draw = function() {
+            p.background(255, 28); // faint white overlay to soften
+    
+            // connections (shorter distance, lighter)
+            for (let i = 0; i < nodes.length; i++) {
+              for (let j = i + 1; j < nodes.length; j++) {
+                const n = nodes[i], m = nodes[j];
+                const d = p.dist(n.x, n.y, m.x, m.y);
+                if (d < 110) {
+                  const alpha = p.map(d, 0, 110, 90, 0);
+                  p.strokeWeight(0.6);
+                  const mid = p.lerpColor(n.color, m.color, 0.5);
+                  p.stroke(p.red(mid), p.green(mid), p.blue(mid), alpha);
+                  p.line(n.x, n.y, m.x, m.y);
+                }
+              }
+            }
+    
+            // nodes
+            p.noStroke();
+            for (const n of nodes) {
+              p.fill(n.color);
+              p.circle(n.x, n.y, n.size);
+              // soft aura
+              p.fill(p.red(n.color), p.green(n.color), p.blue(n.color), 20);
+              p.circle(n.x, n.y, n.size * 2);
+              n.x += n.dx; n.y += n.dy;
+              if (n.x < 0 || n.x > p.width) n.dx *= -1;
+              if (n.y < 0 || n.y > p.height) n.dy *= -1;
+            }
+          };
+    
+          p.windowResized = function() {
+            const r = container.getBoundingClientRect();
+            p.resizeCanvas(Math.max(320, Math.floor(r.width)), Math.max(240, Math.floor(r.height)));
+          };
+        };
+        new p5(sketch, 'art-container');
+      }
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        initSketch();
+      } else {
+        window.addEventListener('DOMContentLoaded', initSketch);
+      }
+    })();
+    </script>    
+
+  <script>
+    // small helpers already in your file
+    function scrollToWaitlist(){
+      const input = document.getElementById("email-input");
+      if(input){ input.scrollIntoView({behavior:"smooth", block:"center"}); input.focus(); }
+    }
+
+    async function handleSubscribe(e){
+      e.preventDefault();
+      const form = e.currentTarget;
+      const input = form.querySelector('input[type="email"]');
+      const btn = form.querySelector('button');
+      const email = input.value.trim();
+      if (!email) return;
+      const originalText = btn.innerText;
+      btn.disabled = true; btn.innerText = 'Sending...';
+      try {
+        localStorage.setItem('morse_waitlist_email', email);
+        btn.innerText = "You're on the list!";
+        input.value = '';
+      } catch {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 </html>
+
 
 
