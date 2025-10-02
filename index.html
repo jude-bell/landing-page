@@ -129,12 +129,31 @@
       max-width: 500px;
       flex-shrink: 0;
     }
+
+    /* Updated hero title styling: each phrase is its own non-breaking line */
     .hero-text h2 {
-      font-size: 3rem;
+      /* responsive sizing: shrinks on small viewports instead of forcing word-breaks */
+      font-size: clamp(1rem, 5.5vw, 3rem);
       color: var(--terracotta-accent);
       margin-bottom: 24px;
-      line-height: 1.1;
+      line-height: 1.05;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      -webkit-font-smoothing: antialiased;
+      margin-top: 0;
     }
+
+    /* make each phrase a block and prevent internal line breaks */
+    .hero-text h2 span {
+      display: block;
+      white-space: nowrap;      /* prevents "Private" / "Conversations" from splitting */
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: none;
+    }
+    /* a tiny gap between the lines to keep it comfortable */
+    .hero-text h2 span + span { margin-top: 8px; }
+
     .hero-text p {
       font-size: 1.2rem;
       color: var(--text-muted);
@@ -142,42 +161,31 @@
     }
 
     .hero-illustration {
-      flex-shrink: 0;
-      text-align: center;
-      position: relative;
-      display: inline-block;
-    }
-    .hero-illustration .ring {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 190%;
-      height: 190%;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at center,
-                  #FDF3E8 60%,
-                  #fbf8f4 80%,
-                  #FAF9F7 100%
-                );
-      z-index: 0;
-      filter: blur(3px);
+      display: flex;
+      gap: 0; /* tighter spacing */
+      justify-content: center;
+      align-items: center;
     }
 
     .hero-illustration img {
-      position: relative;
-      z-index: 1;
-      display: block;
+      display: block; /* keep block so they scale properly inside flex */
       max-width: 240px;
       width: 100%;
       height: auto;
-      margin: 0 auto;
       border-radius: 20px;
     }
 
     @media (max-width: 960px) {
       .hero { flex-direction: column; text-align: center; }
       .hero-text { max-width: 100%; }
+    }
+
+    /* further reduce title size on very narrow screens so lines fit */
+    @media (max-width: 420px) {
+      .hero-text h2 {
+        font-size: clamp(0.85rem, 7.5vw, 2.2rem);
+      }
+      .hero-text h2 span + span { margin-top: 6px; }
     }
 
     .waitlist-form {
@@ -294,7 +302,11 @@
   <main>
     <section class="section hero" id="hero">
       <div class="hero-text">
-        <h2>Private Conversations. Self-Custody. Seamless.</h2>
+        <h2 aria-hidden="false">
+          <span>Private Conversations.</span>
+          <span>Self-Custody.</span>
+          <span>Seamless.</span>
+        </h2>        
         <p>Morse is the decentralized messenger built into a self-custodial Stellar wallet. You own your keys. You control your data. Connect and transact — privately.</p>
         <form id="waitlist" class="waitlist-form" onsubmit="return handleSubscribe(event)">
           <input id="email-input" type="email" placeholder="your@domain.com" required>
@@ -303,9 +315,10 @@
         <div class="pill-note">No spam. Just launch updates and key announcements.</div>
       </div>
       <div class="hero-illustration">
-        <div class="ring"></div>
-        <img src="hero-graphic.png" alt="Morse app illustration">
+        <img src="hero-graphic-2.png" alt="Morse app illustration">
+        <img src="hero-graphic-1.png" alt="Morse app illustration copy">
       </div>
+      
     </section>
 
     <section class="section section-center" id="features">
