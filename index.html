@@ -129,10 +129,7 @@
       max-width: 500px;
       flex-shrink: 0;
     }
-
-    /* Updated hero title styling: each phrase is its own non-breaking line */
     .hero-text h2 {
-      /* responsive sizing: shrinks on small viewports instead of forcing word-breaks */
       font-size: clamp(1rem, 5.5vw, 3rem);
       color: var(--terracotta-accent);
       margin-bottom: 24px;
@@ -142,50 +139,31 @@
       -webkit-font-smoothing: antialiased;
       margin-top: 0;
     }
-
-    /* make each phrase a block and prevent internal line breaks */
     .hero-text h2 span {
       display: block;
-      white-space: nowrap;      /* prevents "Private" / "Conversations" from splitting */
+      white-space: nowrap;
       overflow-wrap: normal;
       word-break: normal;
       hyphens: none;
     }
-    /* a tiny gap between the lines to keep it comfortable */
     .hero-text h2 span + span { margin-top: 8px; }
-
     .hero-text p {
       font-size: 1.2rem;
       color: var(--text-muted);
       margin-bottom: 32px;
     }
-
     .hero-illustration {
       display: flex;
-      gap: 0; /* tighter spacing */
+      gap: 0;
       justify-content: center;
       align-items: center;
     }
-
     .hero-illustration img {
-      display: block; /* keep block so they scale properly inside flex */
+      display: block;
       max-width: 240px;
       width: 100%;
       height: auto;
       border-radius: 20px;
-    }
-
-    @media (max-width: 960px) {
-      .hero { flex-direction: column; text-align: center; }
-      .hero-text { max-width: 100%; }
-    }
-
-    /* further reduce title size on very narrow screens so lines fit */
-    @media (max-width: 420px) {
-      .hero-text h2 {
-        font-size: clamp(0.85rem, 7.5vw, 2.2rem);
-      }
-      .hero-text h2 span + span { margin-top: 6px; }
     }
 
     .waitlist-form {
@@ -263,7 +241,6 @@
       transform: translateY(-1px);
     }
 
-    /* Make all mailto links green, override browser default blue */
     a[href^="mailto:"] {
       color: var(--green-accent);
       font-weight: 600;
@@ -274,11 +251,28 @@
       transform: translateY(-1px);
     }
 
+    /* Media queries */
     @media (max-width: 960px) {
       .hero { flex-direction: column; }
+      .hero-text { max-width: 100%; }
       .waitlist-form { flex-direction: column; }
       .waitlist-form input, .waitlist-form button { width: 100%; }
     }
+
+    /* Hide top bar buttons on mobile */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .hero-text h2 {
+        font-size: clamp(0.85rem, 7.5vw, 2.2rem);
+      }
+      .hero-text h2 span + span { margin-top: 6px; }
+    }
+
   </style>
 </head>
 <body>
@@ -306,7 +300,7 @@
           <span>Private Conversations.</span>
           <span>Self-Custody.</span>
           <span>Seamless.</span>
-        </h2>        
+        </h2>
         <p>Morse is the decentralized messenger built into a self-custodial Stellar wallet. You own your keys. You control your data. Connect and transact — privately.</p>
         <form id="waitlist" class="waitlist-form" onsubmit="return handleSubscribe(event)">
           <input id="email-input" type="email" placeholder="your@domain.com" required>
@@ -318,7 +312,6 @@
         <img src="hero-graphic-2.png" alt="Morse app illustration">
         <img src="hero-graphic-1.png" alt="Morse app illustration copy">
       </div>
-      
     </section>
 
     <section class="section section-center" id="features">
@@ -400,3 +393,4 @@
   </script>
 </body>
 </html>
+
