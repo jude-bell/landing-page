@@ -1,396 +1,372 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Morse — Decentralized Messaging & Wallet</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --terracotta-accent: rgb(191, 94, 74);
-      --terracotta-highlight: rgb(232, 209, 188);
-      --bg-light: #faf9f7;
-      --bg: #f7f5f0;
-      --text-dark: #111;
-      --text-muted: #6b6b6b;
-      --card-bg: #fff;
-      --max-width: 1200px;
-      --section-gap: 80px;
-      --green-accent: #34a853;
-      --green-accent-dark: #2d8f46;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Morse — Messenger & Wallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --background: #f7f5f0; /* background */
+  --terracotta-accent: #bf5e4a;
+  --terracotta-mid: #d49383;
+  --terracotta-highlight: #e8d1bd;
+  --muted-green: #8ca675;
+  --deep-brick-red: #b83f33;
+  --custom-teal: #78aea9;
+  --custom-teal-text: #6b9b99;
+  --custom-teal-bg: #bdd8d6;
+  --text-dark: #352d2c;
+  --text-muted: #675f5e;
+  --glass: rgba(255,255,255,0.55);
+  --max-w: 1200px;
+}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', system-ui, -apple-system, Roboto, sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-    }
+html, body {
+  margin: 0; height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: radial-gradient(circle at 50% 0%, var(--terracotta-highlight), var(--background) 90%);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.9);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      z-index: 100;
-    }
-    .nav {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .logo {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      border: 2px solid var(--terracotta-accent);
-      background: #fff url('logo.png') center/cover no-repeat;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    }
-    .brand h1 {
-      font-size: 1.4rem;
-      color: var(--terracotta-accent);
-      font-weight: 700;
-    }
-    .brand small {
-      display: block;
-      font-size: .8rem;
-      color: var(--text-muted);
-    }
+/* Links + resets */
+a { text-decoration: none; color: inherit; }
 
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      align-items: center;
-    }
-    .nav-links a {
-      font-size: 1rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.18s ease, transform 0.12s ease;
-    }
-    .nav-links a:hover { color: var(--terracotta-accent); }
-    .nav-links a.green-link {
-      color: var(--green-accent);
-      font-weight: 600;
-    }
-    .nav-links a.green-link:hover {
-      color: var(--green-accent-dark);
-      transform: translateY(-1px);
-    }
+/* Header */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.7);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  z-index: 60;
+}
 
-    .btn {
-      background: var(--terracotta-accent);
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: 0 6px 18px rgba(191, 94, 74, 0.25);
-    }
-    .btn:hover {
-      background: rgb(156, 70, 54);
-      transform: translateY(-2px);
-    }
+.nav {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-    main { flex: 1; width: 100%; }
-    .section {
-      width: 100%;
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--section-gap) 20px;
-    }
+.logo {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--deep-brick-red), var(--terracotta-mid));
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800;
+  box-shadow: 0 6px 24px rgba(191,94,74,0.25);
+}
 
-    /* Hero */
-    .hero {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
-    .hero-text {
-      max-width: 500px;
-      flex-shrink: 0;
-    }
-    .hero-text h2 {
-      font-size: clamp(1rem, 5.5vw, 3rem);
-      color: var(--terracotta-accent);
-      margin-bottom: 24px;
-      line-height: 1.05;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      -webkit-font-smoothing: antialiased;
-      margin-top: 0;
-    }
-    .hero-text h2 span {
-      display: block;
-      white-space: nowrap;
-      overflow-wrap: normal;
-      word-break: normal;
-      hyphens: none;
-    }
-    .hero-text h2 span + span { margin-top: 8px; }
-    .hero-text p {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      margin-bottom: 32px;
-    }
-    .hero-illustration {
-      display: flex;
-      gap: 0;
-      justify-content: center;
-      align-items: center;
-    }
-    .hero-illustration img {
-      display: block;
-      max-width: 240px;
-      width: 100%;
-      height: auto;
-      border-radius: 20px;
-    }
+.brand h1 {
+  font-size: 17px; margin: 0; font-weight: 700;
+  color: var(--deep-brick-red);
+}
+.brand small {
+  color: var(--text-muted);
+  font-size: 12px; display: block; margin-top: -2px;
+}
 
-    .waitlist-form {
-      display: flex;
-      gap: 10px;
-      max-width: 480px;
-    }
-    .waitlist-form input {
-      flex: 1;
-      padding: 14px 16px;
-      border: 1px solid rgba(0,0,0,0.1);
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-    .pill-note {
-      margin-top: 10px;
-      font-size: .9rem;
-      color: var(--text-muted);
-    }
+.nav-links {
+  display: flex; align-items: center; gap: 18px;
+}
+.nav-links a {
+  font-size: 14px; font-weight: 600;
+  color: var(--text-muted);
+  transition: color .2s;
+}
+.nav-links a:hover {
+  color: var(--deep-brick-red);
+}
+.cta {
+  background: linear-gradient(90deg, var(--custom-teal), var(--muted-green));
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(120,174,169,0.25);
+  transition: transform .2s ease;
+}
+.cta:hover { transform: translateY(-2px); }
 
-    /* Features */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-    }
-    .feature-card {
-      background: var(--card-bg);
-      padding: 24px;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(16,24,40,0.04);
-    }
-    .feature-card h3 {
-      color: var(--terracotta-accent);
-      margin-bottom: 12px;
-      font-size: 1.25rem;
-    }
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 1rem;
-    }
+/* Layout */
+main {
+  margin-top: 90px;
+}
+.container {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 72px 28px;
+}
 
-    .section-center { text-align: center; }
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  padding-bottom: 60px;
+}
+.eyebrow {
+  font-weight: 700;
+  font-size: 12px;                 
+  color: var(--muted-green);
+  background: rgba(120,174,169,0.12);
+  padding: 4px 10px;               
+  border-radius: 999px;
+  display: inline-block;            
+  margin: 0 auto 12px auto;        /* centers the capsule */
+  max-width: fit-content;           
+  text-align: center;
+}
+.hero-title {
+  font-size: clamp(34px, 6.5vw, 64px);
+  font-weight: 800;
+  background: linear-gradient(180deg, var(--deep-brick-red), var(--terracotta-accent) 80%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+.lead {
+  color: var(--text-muted);
+  font-size: 17px;
+  max-width: 60ch;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+.actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 42px;
+}
+.secondary {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(191,94,74,0.25);
+  color: var(--deep-brick-red);
+  font-weight: 600;
+  background: rgba(255,255,255,0.5);
+  transition: background .2s ease;
+}
+.secondary:hover { background: var(--terracotta-highlight); }
 
-    /* Footer */
-    .footer {
-      background: #fff;
-      border-top: 1px solid rgba(0,0,0,0.05);
-    }
-    .footer-inner {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 40px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-    .footer-links a {
-      text-decoration: none;
-      color: var(--text-muted);
-      transition: color 0.18s ease;
-    }
-    .footer-links a:hover { color: var(--terracotta-accent); }
-    .footer-links a.green-link {
-      color: var(--green-accent);
-      font-weight: 600;
-    }
-    .footer-links a.green-link:hover {
-      color: var(--green-accent-dark);
-      transform: translateY(-1px);
-    }
+/* Subtle gradient halo background */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -10%; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle at center,
+    rgba(191,94,74,0.15),
+    rgba(120,174,169,0.12),
+    transparent 70%);
+  filter: blur(60px);
+  z-index: 0;
+}
 
-    a[href^="mailto:"] {
-      color: var(--green-accent);
-      font-weight: 600;
-      text-decoration: none;
-    }
-    a[href^="mailto:"]:hover {
-      color: var(--green-accent-dark);
-      transform: translateY(-1px);
-    }
+/* Features */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  z-index: 2;
+}
+.card {
+  background: rgba(255,255,255,0.7);
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(191,94,74,0.1);
+  box-shadow: 0 10px 30px rgba(191,94,74,0.15);
+  backdrop-filter: blur(8px);
+  text-align: left;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(184,63,51,0.25);
+}
+.card h3 {
+  margin: 0 0 10px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--deep-brick-red);
+}
+.card p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 15px;
+}
 
-    /* Media queries */
-    @media (max-width: 960px) {
-      .hero { flex-direction: column; }
-      .hero-text { max-width: 100%; }
-      .waitlist-form { flex-direction: column; }
-      .waitlist-form input, .waitlist-form button { width: 100%; }
-    }
+/* Waitlist */
+#waitlist {
+  margin-top: 80px;
+  text-align: center;
+}
+#waitlist form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 14px;
+}
+#waitlist input {
+  flex: 1;
+  min-width: 240px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(184,63,51,0.2);
+  background: rgba(255,255,255,0.8);
+  color: var(--text-dark);
+}
+#waitlist input::placeholder {
+  color: var(--text-muted);
+}
 
-    /* Hide top bar buttons on mobile */
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-    }
+/* Footer */
+footer {
+  margin-top: 100px;
+  padding: 36px 28px;
+  border-top: 1px solid rgba(184,63,51,0.15);
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.6);
+}
+.footer-inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.links {
+  display: flex;
+  gap: 16px;
+}
 
-    @media (max-width: 420px) {
-      .hero-text h2 {
-        font-size: clamp(0.85rem, 7.5vw, 2.2rem);
-      }
-      .hero-text h2 span + span { margin-top: 6px; }
-    }
-
-  </style>
+/* Fade-in animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 700ms cubic-bezier(.2,.9,.25,1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+</style>
 </head>
+
 <body>
   <header>
     <nav class="nav">
-      <div class="brand">
-        <div class="logo"></div>
+      <div class="brand" style="display:flex;align-items:center;gap:12px;">
+        <!-- Logo image -->
+        <img src="logo.png" alt="Morse Logo" class="logo" style="width:44px;height:44px;border-radius:12px;">
         <div>
           <h1>Morse</h1>
-          <small>Decentralized Messenger & Wallet</small>
+          <small>Messenger · Wallet</small>
         </div>
       </div>
       <div class="nav-links">
-        <a href="#about" class="green-link">About</a>
-        <a href="#features" class="green-link">Features</a>
-        <button class="btn" onclick="scrollToWaitlist()">Join Waitlist</button>
+        <a href="#features">Features</a>
+        <a href="#about">About</a>
+        <a class="cta" href="#waitlist">Join Waitlist</a>
       </div>
     </nav>
   </header>
 
-  <main>
-    <section class="section hero" id="hero">
-      <div class="hero-text">
-        <h2 aria-hidden="false">
-          <span>Private Conversations.</span>
-          <span>Self-Custody.</span>
-          <span>Seamless.</span>
-        </h2>
-        <p>Morse is the decentralized messenger built into a self-custodial Stellar wallet. You own your keys. You control your data. Connect and transact — privately.</p>
-        <form id="waitlist" class="waitlist-form" onsubmit="return handleSubscribe(event)">
-          <input id="email-input" type="email" placeholder="your@domain.com" required>
-          <button class="btn" type="submit">Get Notified</button>
+<main>
+  <section class="container">
+    <div class="hero">
+      <span class="eyebrow reveal">Private by default</span>
+      <h2 class="hero-title reveal">
+        Messaging that you own —<br> built into a self-custodial wallet.
+      </h2>
+      <p class="lead reveal">
+        Morse pairs on-device keys with decentralized transport and a seamless Stellar-powered wallet.
+        Own your identity, your keys, and your messages — all in one encrypted app.
+      </p>
+
+      <div class="actions reveal">
+        <a class="cta" href="#waitlist">Get early access</a>
+        <a class="secondary" href="#features">See features</a>
+      </div>
+
+      <div class="features reveal" id="features">
+        <div class="card">
+          <h3>Secure Conversations</h3>
+          <p>End-to-end encryption using your device-held private keys. No one else can read or revoke access.</p>
+        </div>
+        <div class="card">
+          <h3>Decentralized Transport</h3>
+          <p>Messages move through independent relays — your data stays off centralized servers.</p>
+        </div>
+        <div class="card">
+          <h3>Wallet Integrated</h3>
+          <p>Send or receive XLM directly in chats for tips, payments, and fast global transactions.</p>
+        </div>
+      </div>
+
+      <section id="waitlist" class="reveal">
+        <h3>Join the Waitlist</h3>
+        <p style="color:var(--text-muted)">Be the first to experience Morse. No spam, just launch updates.</p>
+        <form id="wlForm">
+          <input type="email" id="email" placeholder="your@email.com" required>
+          <button class="cta" type="submit">Get Notified</button>
         </form>
-        <div class="pill-note">No spam. Just launch updates and key announcements.</div>
-      </div>
-      <div class="hero-illustration">
-        <img src="hero-graphic-2.png" alt="Morse app illustration">
-        <img src="hero-graphic-1.png" alt="Morse app illustration copy">
-      </div>
-    </section>
+      </section>
+    </div>
+  </section>
 
-    <section class="section section-center" id="features">
-      <h2>Core Principles</h2>
-      <p style="color: var(--text-muted); margin-bottom: 40px;">
-        We built Morse around privacy, decentralization, and seamless usability.
-      </p>
-      <div class="features">
-        <div class="feature-card">
-          <h3>End-to-End Encryption</h3>
-          <p>Messages are encrypted locally. Only you and the intended recipient can read them.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Decentralized Storage</h3>
-          <p>Content can be stored on decentralized nodes you choose — no central server in control.</p>
-        </div>
-        <div class="feature-card">
-          <h3>On-Device Key Management</h3>
-          <p>Your private keys never leave your device — identity is fully local.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Integrated Wallet</h3>
-          <p>Send and receive Stellar (XLM) seamlessly in the same app — messaging + payments in one.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-center" id="about">
-      <h2>About Morse</h2>
-      <p>
-        Morse is developed by Morse Wallet, Inc. Our mission is to empower people with tools for private, sovereign communication and financial interactions.
-        We believe messaging and payments should be integrated yet secure — no centralized gatekeepers, no surveillance.
-      </p>
-      <p>Launching soon on iOS (App Store), with Android and desktop support in the pipeline.</p>
-      <h3>Contact</h3>
-      <p>Email: <a href="mailto:support@morse.website">support@morse.website</a></p>
-    </section>
-  </main>
-
-  <footer class="footer">
+  <footer>
     <div class="footer-inner">
-      <div>© 2025 Morse Wallet, Inc.</div>
-      <div class="footer-links">
+      <div>© <span id="year"></span> Morse Wallet, Inc.</div>
+      <div class="links">
         <a href="#privacy">Privacy</a>
         <a href="#terms">Terms</a>
-        <a href="mailto:support@morse.website">Contact</a>
+        <a href="mailto:support@morsewallet.com">Contact</a>
       </div>
     </div>
   </footer>
+</main>
 
-  <script>
-    function scrollToWaitlist(){
-      const input = document.getElementById("email-input");
-      if (input) {
-        input.scrollIntoView({ behavior: "smooth", block: "center" });
-        input.focus();
-      }
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Simple reveal animation
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  for (const entry of entries) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+      observer.unobserve(entry.target);
     }
-    async function handleSubscribe(e) {
-      e.preventDefault();
-      const form = e.currentTarget;
-      const input = form.querySelector('input[type="email"]');
-      const btn = form.querySelector('button');
-      const email = input.value.trim();
-      if (!email) return;
-      const orig = btn.innerText;
-      btn.disabled = true;
-      btn.innerText = 'Sending...';
-      try {
-        localStorage.setItem('morse_waitlist_email', email);
-        btn.innerText = "You're in!";
-        input.value = '';
-      } catch (err) {
-        console.error(err);
-        btn.innerText = orig;
-        btn.disabled = false;
-      }
-    }
-  </script>
+  }
+}, { threshold: 0.15 });
+revealEls.forEach(el => observer.observe(el));
+
+// Waitlist local save (for demo)
+document.getElementById('wlForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const email = document.getElementById('email').value.trim();
+  if (!email) return;
+  const stored = JSON.parse(localStorage.getItem('morse_waitlist') || '[]');
+  stored.push({ email, ts: Date.now() });
+  localStorage.setItem('morse_waitlist', JSON.stringify(stored));
+  e.target.querySelector('button').innerText = "You're in 🎉";
+  e.target.reset();
+});
+</script>
 </body>
 </html>
 
