@@ -89,7 +89,7 @@ main { margin-top: 90px; }
 
 .hero { display: grid; grid-template-columns: 1fr; align-items: center; text-align: center; position: relative; padding-bottom: 60px; }
 .eyebrow { font-weight: 700; font-size: 12px; color: var(--muted-green); background: rgba(120,174,169,0.12); padding: 4px 10px; border-radius: 999px; display: inline-block; margin: 0 auto 12px auto; max-width: fit-content; text-align: center; }
-.hero-title { font-size: clamp(34px, 6.5vw, 64px); font-weight: 800; background: linear-gradient(180deg, var(--deep-brick-red), var(--terracotta-accent) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; margin: 0 0 20px; }
+.hero-title { font-size: clamp(34px, 6.5vw, 64px); font-weight: 800; background: linear-gradient(180deg, var(--deep-brick-red), var(--terracotta-accent) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.02em; margin: 0 0 20px; line-height: 1.3; }
 .lead { color: var(--text-muted); font-size: 17px; max-width: 60ch; margin: 0 auto 32px; line-height: 1.6; }
 .actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 42px; }
 .secondary { padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(191,94,74,0.25); color: var(--deep-brick-red); font-weight: 600; background: rgba(255,255,255,0.5); transition: background .2s ease; }
@@ -124,22 +124,9 @@ footer { margin-top: 100px; padding: 36px 28px; border-top: 1px solid rgba(184,6
 .reveal { opacity: 0; transform: translateY(10px); transition: all 700ms cubic-bezier(.2,.9,.25,1); }
 .reveal.in { opacity: 1; transform: none; }
 
-/* ---------- MOBILE UPDATES ---------- */
 @media (max-width: 768px) {
-  .nav-links { display: none; } /* hide top buttons */
+  .nav-links { display: none; }
   .hero-title { font-size: clamp(28px, 6vw, 48px); }
-  .hero-title::after { content: ""; } /* clear existing breaks if needed */
-  .hero-title { line-height: 1.3; }
-  .hero-title::before { content: ""; }
-  .hero-title { font-weight: 800; }
-  .hero-title { color: transparent; background: linear-gradient(180deg, var(--deep-brick-red), var(--terracotta-accent) 80%); -webkit-background-clip: text; background-clip: text; }
-
-  /* Change hero text for mobile */
-  .hero-title::after {
-    content: "Messaging built into a self-custodial wallet";
-    display: block;
-  }
-  .hero-title span { display: none; } /* hide original content */
 }
 </style>
 </head>
@@ -241,9 +228,18 @@ document.getElementById('wlForm').addEventListener('submit', e => {
   e.target.querySelector('button').innerText = "You're in 🎉";
   e.target.reset();
 });
+
+// ---------- MOBILE HERO TEXT SWAP ----------
+function updateHeroForMobile() {
+  const hero = document.querySelector('.hero-title');
+  if (window.innerWidth <= 768) {
+    hero.textContent = "Messaging built into a self-custodial wallet";
+  } else {
+    hero.innerHTML = "Messaging that you own —<br> built into a self-custodial wallet.";
+  }
+}
+updateHeroForMobile();
+window.addEventListener('resize', updateHeroForMobile);
 </script>
 </body>
 </html>
-
-
-
