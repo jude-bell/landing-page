@@ -1,0 +1,3 @@
+# Tell GitHub Pages / Jekyll to include dot-folders like .well-known
+include:
+  - .well-known
