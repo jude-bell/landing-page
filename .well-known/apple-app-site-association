@@ -3,9 +3,10 @@
     "apps": [],
     "details": [
       {
-        "appID": "TEAMID.com.yourcompany.morse",
+        "appID": "D3H26VS8F9.OI.Jude.MorseNew",
         "paths": [ "/invite/*" ]
       }
     ]
   }
 }
+
