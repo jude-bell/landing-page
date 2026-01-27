@@ -4,7 +4,7 @@
     "details": [
       {
         "appID": "D3H26VS8F9.OI.Jude.MorseNew",
-        "paths": [ "/invite/*" ]
+        "paths": [ "/invite", "/invite/*" ]
       }
     ]
   }
