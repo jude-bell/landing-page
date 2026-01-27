@@ -391,12 +391,12 @@ h1 {
     Join the encrypted network for the self-sovereign. Private messaging and self-custodial wallet—all in one app.
   </p>
 
-  <a href="morse://" class="cta-primary" id="openApp">
-    Open Morse App
+  <a href="https://apps.apple.com/us/app/morse-messenger-wallet/id6752038832" class="cta-primary" id="downloadLink">
+    Download Morse
   </a>
 
-  <a href="https://apps.apple.com/us/app/morse-messenger-wallet/id6752038832" class="secondary-link" id="downloadLink">
-    Don't have Morse? Download from App Store →
+  <a href="https://morse.website" class="secondary-link">
+    Learn more about Morse →
   </a>
 
   <div class="features">
@@ -424,37 +424,12 @@ h1 {
   </div>
 
   <div class="countdown">
-    <span id="timer">Attempting to open app...</span>
+    <span id="timer">Available on iOS · Self-Sovereign by Design</span>
   </div>
 </div>
 
-<div class="redirect-msg" id="redirectMsg">
-  App didn't open? Tap the button above to download
-</div>
-
 <script>
-// Attempt to open the app immediately
-window.location.href = 'morse://';
-
-// Show the download link after a delay if app doesn't open
-setTimeout(() => {
-  document.getElementById('timer').textContent = 'App not installed? Download below ↓';
-}, 2000);
-
-// Track if user left (app opened)
-let appOpened = false;
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    appOpened = true;
-  }
-});
-
-// If they come back quickly, assume app didn't open
-setTimeout(() => {
-  if (!appOpened) {
-    document.getElementById('redirectMsg').style.display = 'block';
-  }
-}, 3000);
+  
 </script>
 </body>
 </html>
