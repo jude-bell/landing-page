@@ -385,11 +385,17 @@ h1 {
 
   <div class="badge">🔐 ENCRYPTED INVITE</div>
 
-  <h1>You've Been Invited to Morse</h1>
+  <h1>You've Been Invited by <span id="inviterName">a Friend</span></h1>
   
   <p class="subtitle">
     Join the encrypted network for the self-sovereign. Private messaging and self-custodial wallet—all in one app.
   </p>
+
+  <div id="usernameBox" style="display: none; background: rgba(191,94,74,0.08); padding: 20px; border-radius: 16px; margin-bottom: 32px; border: 2px dashed var(--terracotta-accent);">
+    <div style="font-size: 13px; font-weight: 700; color: var(--deep-brick-red); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">Their Username</div>
+    <div style="font-size: 24px; font-weight: 800; color: var(--deep-brick-red); font-family: 'Courier New', monospace; word-break: break-all;" id="usernameDisplay">-</div>
+    <div style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Add this username after installing Morse</div>
+  </div>
 
   <a href="https://apps.apple.com/us/app/morse-messenger-wallet/id6752038832" class="cta-primary" id="downloadLink">
     Download Morse
@@ -408,17 +414,17 @@ h1 {
       </div>
     </div>
     <div class="feature">
-      <div class="feature-icon">💎</div>
-      <div class="feature-content">
-        <div class="feature-title">Self-Custodial</div>
-        <div class="feature-desc">You own your crypto</div>
-      </div>
-      </div>
-    <div class="feature">
       <div class="feature-icon">⚡</div>
       <div class="feature-content">
         <div class="feature-title">Decentralized</div>
         <div class="feature-desc">No central servers</div>
+      </div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💎</div>
+      <div class="feature-content">
+        <div class="feature-title">Self-Custodial</div>
+        <div class="feature-desc">You own your crypto</div>
       </div>
     </div>
   </div>
@@ -429,7 +435,8 @@ h1 {
 </div>
 
 <script>
-  
+// No auto-redirect needed - Universal Links will handle it when properly configured
+// This page serves as both the invite landing and fallback download page
 </script>
 </body>
 </html>
